@@ -5,7 +5,7 @@ const crypto=require('crypto');
 const WebSocket=require('ws');
 const PORT=process.env.PORT||3000;
 const html=fs.readFileSync(path.join(__dirname,'index.html'));
-const server=http.createServer((req,res)=>{const url=new URL(req.url,'http://localhost');if(url.pathname==='/'||url.pathname==='/index.html'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(html)}else if(url.pathname==='/health'){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:true,rooms:rooms.size}))}else{res.writeHead(404);res.end('Not found')}});
+const server=http.createServer((req,res)=>{const url=new URL(req.url,'http://localhost');if(url.pathname==='/'||url.pathname==='/index.html'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(html)}else if(url.pathname==='/capily-icon.png'||url.pathname==='/apple-touch-icon.png'){const name=url.pathname.slice(1);res.writeHead(200,{'Content-Type':'image/png','Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'});res.end(fs.readFileSync(path.join(__dirname,name)))}else if(url.pathname==='/health'){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({ok:true,rooms:rooms.size}))}else{res.writeHead(404);res.end('Not found')}});
 const wss=new WebSocket.Server({server,maxPayload:4096});
 const rooms=new Map();
 // Referral rewards are granted only for a distinct new visitor, once per inviter/visitor pair per server lifetime.
